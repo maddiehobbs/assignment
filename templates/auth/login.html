@@ -1,27 +1,21 @@
-<!DOCTYPE html>
-<html>
+{% extends "auth/baseauth.html" %}
 
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
+{% block title %}Login{% endblock %}
 
-<body>
-    <h1 align="center">Login</h1>
+{% block heading %}Login!{% endblock %}
 
-    <form method="POST">
-        <div>
-            <label>Username:</label>
-            <input type="text" class="" name="username" id="username" placeholder="Enter username..." required>
-        </div>
-        <div>
-            <label>Password:</label>
-            <input type="password" class="" name="password" id="password" placeholder="Enter password..." required>
-        </div>
-        <br>
-        <button type="submit" class="button">Login</button>
-    </form>
-</body>
-
-</html>
+{% block content %}
+<form method="POST" class="form">
+    <div class="form-group">
+        <label>Username:</label>
+        <input type="text" class="form-input" name="username" id="username" placeholder="Enter username..." required>
+    </div>
+    <div class="form-group">
+        <label>Password:</label>
+        <input type="password" class="form-input" name="password" id="password" placeholder="Enter password..."
+            required>
+    </div>
+    <br>
+    <button type="submit" class="button">Login</button>
+</form>
+{% endblock %}
