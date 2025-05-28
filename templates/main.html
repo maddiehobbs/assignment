@@ -2,13 +2,76 @@
 <html>
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tickets R Us</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
-    <a href="{{ url_for('logout') }}" class="button-back">logout</a>
+    <a href="{{ url_for('logout') }}" class="button-back">Logout</a>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }}" role="alert">
+        {{ message }}
+        <button type="button" class="dismiss" data-dismiss="alert">&times;</button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
     <h1 align="center">Tickets R Us</h1>
+    <ul>
+        <li><a href="#view" onclick="setActive(this)" class="tab-link active" data-tab="view">View</a></li>
+        <li><a href="#create" onclick="setActive(this)" class="tab-link" data-tab="create">Create</a></li>
+        <li><a href="#delete" onclick="setActive(this)" class="tab-link" data-tab="delete">Delete</a></li>
+        <li><a href="#update" onclick="setActive(this)" class="tab-link" data-tab="update">Update</a></li>
+    </ul>
+
+    <div id="create" class="tab">
+        <h2>Create Ticket</h2>
+    </div>
+
+    <div id="delete" class="tab">
+        <h2>Delete Ticket</h2>
+    </div>
+
+    <div id="update" class="tab">
+        <h2>Update Ticket</h2>
+    </div>
+
+    <div id="view" class="tab">
+        <h2>Tickets</h2>
+    </div>
 </body>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Auto-dismiss after 5 seconds
+        const alerts = document.querySelectorAll('.alert');
+        alerts.forEach(alert => {
+            setTimeout(() => {
+                alert.style.opacity = '0';
+                setTimeout(() => alert.remove(), 300);
+            }, 5000);
+        });
+
+        document.querySelectorAll('[data-dismiss="alert"]').forEach(button => {
+            button.addEventListener('click', function () {
+                const alert = this.parentElement;
+                alert.style.opacity = '0';
+                setTimeout(() => alert.remove(), 300);
+            });
+        });
+    });
+    function setActive(element) {
+        // Removes active class
+        document.querySelectorAll('.tab-link').forEach(link => {
+            link.classList.remove('active');
+        });
+        // Adds active class
+        element.classList.add('active');
+    }
+</script>
 
 </html>
