@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import Flask, render_template
+from flask import Flask, flash, redirect, render_template, request, url_for
 from flask_login import login_required, LoginManager
 from auth import login, logout, register
 from models import Tickets, db, User
@@ -13,7 +13,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 
-#Login manager setup
+# Login manager setup
 login_manager = LoginManager()
 login_manager.login_view = 'login_page'
 login_manager.init_app(app)
@@ -42,6 +42,48 @@ def main():
     return render_template('main.html', 
                          tickets=tickets,
                          columns=columns)
+
+@app.route('/create', methods=['POST'])
+@login_required
+def create():
+    try:
+        if request.method == 'POST':
+            id = request.form.get('id')
+            title = request.form.get('title')
+            assigned_group = request.form.get('assigned_group')
+            status = request.form.get('status')
+            severity = request.form.get('severity')
+
+            # Converts the string to datetime object
+            date_str = request.form.get('date')
+            try:
+                date = datetime.strptime(date_str, '%Y-%m-%dT%H:%M')
+            except:
+                date = datetime.now()  # Defaults to the current time if conversion fails
+
+            id_exists = Tickets.query.filter_by(id=id).first()
+            if id_exists:
+                flash('Id already exists, try again!', category='failure')
+            elif date > datetime.now():
+                flash('Date cannot be in the future, try again!', category='failure')
+            else:    
+                new_ticket = Tickets(
+                    id=id,
+                    title=title,
+                    severity=severity,
+                    status=status,
+                    assigned_group=assigned_group,
+                    date=date
+                )
+            
+                db.session.add(new_ticket)
+                db.session.commit()
+                flash('Ticket created successfully!', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash("An error occured: " + str(e), category='failure')
+
+    return redirect(url_for('main', _anchor='view'))
 
 @app.route('/logout')
 def logout_page():

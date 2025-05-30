@@ -60,6 +60,18 @@ h1 {
   left: 5px;
 }
 
+.button-submit {
+  background-color: #5e605e;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.button-submit:hover {
+  background-color: #45a049;
+}
+
 .alert {
   padding: 15px;
   margin: 20px auto; /* Center the alert */
@@ -109,7 +121,7 @@ h1 {
 .form-input {
   width: 100%;
   padding: 8px;
-  border: 1px solid #ddd;
+  border: 1px solid #302f2f;
   border-radius: 4px;
   box-sizing: border-box;
 }
