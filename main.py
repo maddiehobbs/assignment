@@ -76,10 +76,14 @@ def register():
                 flash('An error occurred.'+ e + 'Please try again.', category='failure')
     return render_template('auth/register.html')
 
-@login_required
 @app.route('/main')
+@login_required
 def main():
-    return render_template('main.html')
+    tickets = Tickets.query.all()
+    columns = Tickets.__table__.columns.keys()
+    return render_template('main.html', 
+                         tickets=tickets,
+                         columns=columns)
 
 @app.route('/logout')
 def logout():

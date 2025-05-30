@@ -166,3 +166,18 @@ li a:hover {
 .active {
   background-color: #252525;
 }
+
+tr:nth-child(even) {
+  background-color: #d6eeee;
+}
+
+tr:nth-child(odd) {
+  background-color: #dbfaf9;
+}
+
+table,
+th,
+td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}

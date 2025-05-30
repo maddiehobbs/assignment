@@ -42,6 +42,23 @@
 
     <div id="view" class="tab">
         <h2>Tickets</h2>
+        <table align="center" style="width:100%">
+            <tr>
+                {% for column in columns %}
+                <th>{{ column }}</th>
+                {% endfor %}
+            </tr>
+            {% for ticket in tickets %}
+            <tr>
+                <td>{{ ticket.id }}</td>
+                <td>{{ ticket.title }}</td>
+                <td>{{ ticket.severity }}</td>
+                <td>{{ ticket.status }}</td>
+                <td>{{ ticket.assigned_group }}</td>
+                <td>{{ ticket.date }}</td>
+            </tr>
+            {% endfor %}
+        </table>
     </div>
 </body>
 
