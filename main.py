@@ -1,7 +1,9 @@
+from datetime import datetime
 from flask import Flask, render_template, redirect, url_for, flash, request
 from flask_login import login_user, login_required, LoginManager, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from models import db, User
+from models import Tickets, db, User
+from os import path
 
 app = Flask(__name__)
 app.secret_key = 'your_secret'
@@ -86,9 +88,59 @@ def logout():
     return redirect(url_for('login'))
 
 def create_database(app):
-    with app.app_context():
-        db.create_all()
-        print("Database created!")
+    if not path.exists('instance/' + 'database.db'):
+        with app.app_context():
+            db.create_all()
+
+            # Sample tickets
+            sample_tickets = [
+                Tickets(
+                    id=283,
+                    title='Network Outage',
+                    severity=1.0,
+                    status='Open',
+                    assigned_group='Network Team',
+                    date=datetime.now()
+                ),
+                Tickets(
+                    id=833,
+                    title='Printer Error',
+                    severity=3.0,
+                    status='In Progress',
+                    assigned_group='IT Support',
+                    date=datetime.now()
+
+                ),
+                Tickets(
+                    id=991,
+                    title='Email System Down',
+                    severity=4.0,
+                    status='Pending',
+                    assigned_group='System Admin',
+                    date=datetime.now()
+                ),
+                Tickets(
+                    id=263,
+                    title='Wrong Price Displayed',
+                    severity=2.5,
+                    status='Open',
+                    assigned_group='Prime Video',
+                    date=datetime.now()
+                ),
+                Tickets(
+                    id=112,
+                    title='Customer Unable to Subscribe to Channel',
+                    severity=1,
+                    status='Closed',
+                    assigned_group='Customer Service',
+                    date=datetime.now()
+                )
+            ]
+
+            db.session.add_all(sample_tickets)
+            db.session.commit()
+
+            print("Database created!")
 
 if __name__ == '__main__':
     create_database(app)

@@ -10,3 +10,11 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(256), nullable=False)
     date = db.Column(db.DateTime(timezone=True), default=func.now())
     admin = db.Column(db.Boolean, default=False)
+
+class Tickets(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=False)
+    title = db.Column(db.String(256), nullable=False)
+    severity = db.Column(db.Float, nullable=False)
+    status = db.Column(db.String(50), nullable=False)
+    assigned_group = db.Column(db.String(100), nullable=False)
+    date = db.Column(db.DateTime(timezone=True))
