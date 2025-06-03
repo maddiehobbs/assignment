@@ -1,6 +1,6 @@
 from datetime import datetime
 from flask import Flask, flash, redirect, render_template, request, url_for
-from flask_login import login_required, LoginManager
+from flask_login import login_required, LoginManager, current_user
 from auth import login, logout, register
 from models import Tickets, db, User
 from os import path
@@ -83,6 +83,26 @@ def create():
         db.session.rollback()
         flash("An error occured: " + str(e), category='failure')
 
+    return redirect(url_for('main', _anchor='view'))
+
+@app.route('/delete', methods=['POST'])
+@login_required
+def delete():
+    id = request.form.get('id')
+    ticket = Tickets.query.filter_by(id=id).first()
+
+    if (current_user.admin == False):
+        flash('You need admin permissions to delete a ticket', category='failure')
+    elif (not ticket):
+        flash('That is not a valid ticket ID, try again!', category='failure')
+    else:
+        try:
+            db.session.delete(ticket)
+            db.session.commit()
+            flash('Successfully deleted', category='success')
+        except Exception as e:
+            db.session.rollback()
+            flash("An error occured: " + str(e), category='failure')
     return redirect(url_for('main', _anchor='view'))
 
 @app.route('/logout')
