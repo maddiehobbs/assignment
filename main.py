@@ -66,7 +66,7 @@ def create():
 
             id_exists = Tickets.query.filter_by(id=id).first()
             if id_exists:
-                flash('Id already exists, try again!', category='failure')
+                flash('That ticket ID already exists, try again!', category='failure')
             elif date > datetime.now():
                 flash('Date cannot be in the future, try again!', category='failure')
             else:    
@@ -84,7 +84,7 @@ def create():
                 flash('Ticket created successfully!', 'success')
     except Exception as e:
         db.session.rollback()
-        flash("An error occured: " + str(e), category='failure')
+        flash('An error occured: ' + str(e), category='failure')
 
     return redirect(url_for('main', _anchor='view'))
 
@@ -102,10 +102,10 @@ def delete():
         try:
             db.session.delete(ticket)
             db.session.commit()
-            flash('Successfully deleted', category='success')
+            flash('Ticket successfully deleted', category='success')
         except Exception as e:
             db.session.rollback()
-            flash("An error occured: " + str(e), category='failure')
+            flash('An error occured: ' + str(e), category='failure')
     return redirect(url_for('main', _anchor='view'))
 
 @app.route('/update', methods=['GET', 'POST'])
@@ -130,7 +130,7 @@ def update():
                     if date_str:
                         date = datetime.strptime(date_str, '%Y-%m-%dT%H:%M')
                         if date > datetime.now():
-                            flash("Date cannot be in the future", category='failure')
+                            flash('Date cannot be in the future', category='failure')
                             return render_template('main.html', 
                                                 tickets=tickets,
                                                 columns=columns,
@@ -139,7 +139,7 @@ def update():
                         else:
                             ticket.date = date
                             db.session.commit()
-                            flash('Ticket updated successfully!', category='success')
+                            flash('Ticket updated successfully', category='success')
                             return render_template('main.html', 
                                                 tickets=tickets,
                                                 columns=columns,
@@ -147,12 +147,12 @@ def update():
                                                 active_tab='view')
                 except Exception as e:
                     db.session.rollback()
-                    flash("Failed to update ticket: " + str(e), category='failure')
+                    flash('Failed to update ticket: ' + str(e), category='failure')
         else:
             ticket_id = request.form.get('id')
             selected_ticket = Tickets.query.get(ticket_id)
             if not selected_ticket:
-                flash("No ticket found with that ID", category='failure')
+                flash('That is not a valid ticket ID, try again!', category='failure')
     
     return render_template('main.html', 
                         tickets=tickets,

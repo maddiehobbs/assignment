@@ -175,7 +175,7 @@
                 <td>{{ ticket.severity }}</td>
                 <td>{{ ticket.status }}</td>
                 <td>{{ ticket.assigned_group }}</td>
-                <td>{{ ticket.date }}</td>
+                <td>{{ ticket.date.strftime('%Y-%m-%d %H:%M:%S') }}</td>
             </tr>
             {% endfor %}
         </table>
