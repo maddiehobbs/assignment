@@ -93,7 +93,71 @@
     </div>
 
     <div id="update" class="tab">
-        <h2>Update Ticket</h2>
+        <h2 align="center">Update Tickets</h2>
+        {% if not selected_ticket %}
+        <div id="selectTicketFormContainer" class="form">
+            <form id="ticketSelectForm" method="POST" action="{{ url_for('update') }}">
+                <div class="form-group">
+                    <label for="select_ticket_id">Enter the ticket ID you want to update:</label>
+                    <input type="number" class="form-input" id="select_ticket_id" name="id" required>
+                </div>
+                <button type="submit" class="button-submit">Select Ticket</button>
+            </form>
+        </div>
+        {% else %}
+        <div id="updateFormContainer" class="form">
+            <form id="updateForm" method="POST" action="{{ url_for('update') }}">
+                <input type="hidden" name="update_ticket" value="true">
+                <input type="hidden" name="id" value="{{ selected_ticket.id }}">
+                <div class="form-group">
+                    <label for="update_title">New Title:</label>
+                    <input type="text" class="form-input" id="update_title" name="title"
+                        value="{{ selected_ticket.title }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="update_severity">New Ticket Severity:</label>
+                    <input type="number" class="form-input" id="update_severity" name="severity" min="1" max="5"
+                        step="0.5" value="{{ selected_ticket.severity }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="update_status">New Status:</label>
+                    <select class="form-input" id="update_status" name="status" required>
+                        <option value="Open" {% if selected_ticket.status=='Open' %}selected{% endif %}>Open</option>
+                        <option value="In Progress" {% if selected_ticket.status=='In Progress' %}selected{% endif %}>In
+                            Progress</option>
+                        <option value="Closed" {% if selected_ticket.status=='Closed' %}selected{% endif %}>Closed
+                        </option>
+                        <option value="Pending" {% if selected_ticket.status=='Pending' %}selected{% endif %}>Pending
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="update_assigned_group">New Assigned Group:</label>
+                    <select class="form-input" id="update_assigned_group" name="assigned_group" required>
+                        <option value="Music" {% if selected_ticket.assigned_group=='Music' %}selected{% endif %}>Music
+                        </option>
+                        <option value="Shopping" {% if selected_ticket.assigned_group=='Shopping' %}selected{% endif %}>
+                            Shopping</option>
+                        <option value="Prime Video" {% if selected_ticket.assigned_group=='Prime Video' %}selected{%
+                            endif %}>Prime Video</option>
+                        <option value="Customer Service" {% if selected_ticket.assigned_group=='Customer Service'
+                            %}selected{% endif %}>Customer Service</option>
+                        <option value="IT Support" {% if selected_ticket.assigned_group=='IT Support' %}selected{% endif
+                            %}>IT Support</option>
+                        <option value="Network Team" {% if selected_ticket.assigned_group=='Network Team' %}selected{%
+                            endif %}>Network Team</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="update_date">New Date:</label>
+                    <input type="datetime-local" class="form-input" id="update_date" name="date"
+                        value="{{ selected_ticket.date.strftime('%Y-%m-%dT%H:%M') }}" required>
+                </div>
+                <button type="submit" class="button-submit">Update Ticket</button>
+                <button type="button" class="button-cancel" onclick="cancelUpdate()">Cancel</button>
+            </form>
+        </div>
+        {% endif %}
     </div>
 
     <div id="view" class="tab">

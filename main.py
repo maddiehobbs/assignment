@@ -40,8 +40,11 @@ def main():
     tickets = Tickets.query.all()
     columns = Tickets.__table__.columns.keys()
     return render_template('main.html', 
-                         tickets=tickets,
-                         columns=columns)
+                           tickets=tickets,
+                           columns=columns,
+                           selected_ticket=None,
+                           active_tab='view')
+
 
 @app.route('/create', methods=['POST'])
 @login_required
@@ -104,6 +107,58 @@ def delete():
             db.session.rollback()
             flash("An error occured: " + str(e), category='failure')
     return redirect(url_for('main', _anchor='view'))
+
+@app.route('/update', methods=['GET', 'POST'])
+@login_required
+def update():
+    tickets = Tickets.query.all()
+    columns = Tickets.__table__.columns.keys()
+    selected_ticket = None
+    
+    if request.method == 'POST':
+        if 'update_ticket' in request.form:
+            ticket_id = request.form.get('id')
+            ticket = Tickets.query.get(ticket_id)
+            if ticket:
+                try:
+                    ticket.title = request.form.get('title')
+                    ticket.severity = float(request.form.get('severity'))
+                    ticket.status = request.form.get('status')
+                    ticket.assigned_group = request.form.get('assigned_group')
+                    
+                    date_str = request.form.get('date')
+                    if date_str:
+                        date = datetime.strptime(date_str, '%Y-%m-%dT%H:%M')
+                        if date > datetime.now():
+                            flash("Date cannot be in the future", category='failure')
+                            return render_template('main.html', 
+                                                tickets=tickets,
+                                                columns=columns,
+                                                selected_ticket=ticket,
+                                                active_tab='update')
+                        else:
+                            ticket.date = date
+                            db.session.commit()
+                            flash('Ticket updated successfully!', category='success')
+                            return render_template('main.html', 
+                                                tickets=tickets,
+                                                columns=columns,
+                                                selected_ticket=None,
+                                                active_tab='view')
+                except Exception as e:
+                    db.session.rollback()
+                    flash("Failed to update ticket: " + str(e), category='failure')
+        else:
+            ticket_id = request.form.get('id')
+            selected_ticket = Tickets.query.get(ticket_id)
+            if not selected_ticket:
+                flash("No ticket found with that ID", category='failure')
+    
+    return render_template('main.html', 
+                        tickets=tickets,
+                        columns=columns,
+                        selected_ticket=selected_ticket,
+                        active_tab='view')
 
 @app.route('/logout')
 def logout_page():
