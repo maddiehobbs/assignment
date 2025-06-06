@@ -165,7 +165,15 @@
         <table align="center" style="width:100%">
             <tr>
                 {% for column in columns %}
-                <th>{{ column }}</th>
+                <th>
+                    <div class="sort-header">
+                        {{ column }}
+                        <a href="{{ url_for('main', sort=column, order='asc') }}"
+                            class="sort-link {% if sort_by==column and order=='asc' %}active{% endif %}">↑</a>
+                        <a href="{{ url_for('main', sort=column, order='desc') }}"
+                            class="sort-link {% if sort_by==column and order=='desc' %}active{% endif %}">↓</a>
+                    </div>
+                </th>
                 {% endfor %}
             </tr>
             {% for ticket in tickets %}

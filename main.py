@@ -37,13 +37,23 @@ def register_page():
 @app.route('/main')
 @login_required
 def main():
-    tickets = Tickets.query.all()
+    # Default sorting
+    sort_by = request.args.get('sort', 'id')
+    order = request.args.get('order', 'asc')
+    
+    if order == 'asc':
+        tickets = Tickets.query.order_by(getattr(Tickets, sort_by).asc()).all()
+    else:
+        tickets = Tickets.query.order_by(getattr(Tickets, sort_by).desc()).all()
+    
     columns = Tickets.__table__.columns.keys()
-    return render_template('main.html', 
+    return render_template('main.html',
                            tickets=tickets,
                            columns=columns,
                            selected_ticket=None,
-                           active_tab='view')
+                           active_tab='view',
+                           sort_by=sort_by,
+                           order=order)
 
 
 @app.route('/create', methods=['POST'])

@@ -188,3 +188,26 @@ td {
   border: 1px solid black;
   border-collapse: collapse;
 }
+
+.sort-header {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.sort-link {
+  text-decoration: none;
+  color: #666;
+  font-size: 12px;
+  padding: 2px 4px;
+}
+
+.sort-link:hover {
+  color: #000;
+  background-color: #f0f0f0;
+}
+
+.sort-link.active {
+  font-weight: bold;
+  color: #ffffff;
+}
