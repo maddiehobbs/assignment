@@ -1,5 +1,10 @@
 h1 {
   color: #333;
+  text-align: center;
+}
+
+h2 {
+  text-align: center;
 }
 
 .button {

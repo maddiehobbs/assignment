@@ -4,14 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Title block that child templates can override -->
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
+    <!-- Back button -->
     <a href="{{ url_for('home') }}" class="button-back">back</a>
+    <!-- Heading block that child templates can override -->
     <h1 align="center">{% block heading %}{% endblock %}</h1>
 
+    <!-- Shows flash messages -->
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
     {% for category, message in messages %}
@@ -23,28 +27,8 @@
     {% endif %}
     {% endwith %}
 
+    <!-- Main content block that child templates can override -->
     {% block content %}{% endblock %}
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Auto-dismiss alerts after 5 seconds
-            const alerts = document.querySelectorAll('.alert');
-            alerts.forEach(alert => {
-                setTimeout(() => {
-                    alert.style.opacity = '0';
-                    setTimeout(() => alert.remove(), 300);
-                }, 5000);
-            });
-
-            document.querySelectorAll('[data-dismiss="alert"]').forEach(button => {
-                button.addEventListener('click', function () {
-                    const alert = this.parentElement;
-                    alert.style.opacity = '0';
-                    setTimeout(() => alert.remove(), 300);
-                });
-            });
-        });
-    </script>
 </body>
 
 </html>

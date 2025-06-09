@@ -1,27 +1,36 @@
+{# Extends the base authentcation template #}
 {% extends "auth/baseauth.html" %}
 
+{# Defines page title #}
 {% block title %}Register{% endblock %}
 
+{# Defines page heading #}
 {% block heading %}Register{% endblock %}
 
+{# Main content block #}
 {% block content %}
 <form method="POST" class="form">
+    <!-- Username input field -->
     <div class="form-group">
         <label>Username:</label>
         <input type="text" class="form-input" name="username" id="username" placeholder="Enter username..." required>
     </div>
+    <!-- Password input field -->
     <div class="form-group">
         <label>Password:</label>
         <input type="password" class="form-input" name="password1" id="password1" placeholder="Enter password..." required>
     </div>
+    <!-- Password confirmation input field -->
     <div class="form-group">
         <label>Confirm Password:</label>
         <input type="password" class="form-input" name="password2" id="password2" placeholder="Confirm password..." required>
     </div>
+    <!-- Admin permissions checkbox-->
     <div class="form-group">
         <input type="checkbox" id="admin" name="admin" value="True">
         <label for="admin">Admin</label>
     </div>
+    <!-- Submit button -->
     <button type="submit" class="button">Submit</button>
 </form>
 {% endblock %}

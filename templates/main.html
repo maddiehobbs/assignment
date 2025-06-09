@@ -10,7 +10,10 @@
 </head>
 
 <body>
+    <!-- Logout button -->
     <a href="{{ url_for('logout_page') }}" class="button-back">Logout</a>
+
+    <!-- Shows flash messages -->
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
     {% for category, message in messages %}
@@ -21,7 +24,9 @@
     {% endfor %}
     {% endif %}
     {% endwith %}
-    <h1 align="center">Tickets R Us</h1>
+    <h1>Tickets R Us</h1>
+
+    <!-- Navigation bar -->
     <ul>
         <li><a href="#view" onclick="setActive(this)" class="tab-link active" data-tab="view">View</a></li>
         <li><a href="#create" onclick="setActive(this)" class="tab-link" data-tab="create">Create</a></li>
@@ -29,10 +34,14 @@
         <li><a href="#update" onclick="setActive(this)" class="tab-link" data-tab="update">Update</a></li>
     </ul>
 
+    <!-- Create ticket tab -->
     <div id="create" class="tab">
-        <h2 align="center">Create Ticket</h2>
+        <h2>Create Ticket</h2>
+
+        <!-- Form for creating tickets -->
         <div class="form">
             <form method="POST" action="{{ url_for('create') }}">
+                <!-- Form fields -->
                 <div class="form-group">
                     <label for="id">Ticket Id:</label>
                     <input type="number" class="form-input" id="id" name="id" required>
@@ -73,42 +82,50 @@
                     <label for="date">Date:</label>
                     <input type="datetime-local" class="form-input" id="date" name="date" required>
                 </div>
-
+                <!-- Submit button -->
                 <button type="submit" class="button-submit">Create Ticket</button>
             </form>
         </div>
     </div>
 
+    <!-- Delete ticket tab -->
     <div id="delete" class="tab">
-        <h2 align="center">Delete Ticket</h2>
+        <h2>Delete Ticket</h2>
         <div class="form">
+            <!-- Form for deleting tickets with confirmation -->
             <form method="POST" action="{{ url_for('delete') }}" onsubmit="return confirmDelete()">
                 <div class="form-group">
                     <label for="id">Enter the ticket ID you want to delete:</label>
                     <input type="number" class="form-input" id="id" name="id" required>
                 </div>
+                <!-- Submit button -->
                 <button type="submit" class="button-submit">Delete Ticket</button>
             </form>
         </div>
     </div>
 
+    <!-- Update ticket tab -->
     <div id="update" class="tab">
-        <h2 align="center">Update Tickets</h2>
+        <h2>Update Tickets</h2>
         {% if not selected_ticket %}
         <div id="selectTicketFormContainer" class="form">
+            <!-- Form to select ticket to update -->
             <form id="ticketSelectForm" method="POST" action="{{ url_for('update') }}">
                 <div class="form-group">
                     <label for="select_ticket_id">Enter the ticket ID you want to update:</label>
                     <input type="number" class="form-input" id="select_ticket_id" name="id" required>
                 </div>
+                <!-- Submit button -->
                 <button type="submit" class="button-submit">Select Ticket</button>
             </form>
         </div>
         {% else %}
         <div id="updateFormContainer" class="form">
+            <!-- Form to update selected ticket -->
             <form id="updateForm" method="POST" action="{{ url_for('update') }}">
                 <input type="hidden" name="update_ticket" value="true">
                 <input type="hidden" name="id" value="{{ selected_ticket.id }}">
+                <!-- Form fields with pre-filled values from current ticket information -->
                 <div class="form-group">
                     <label for="update_title">New Title:</label>
                     <input type="text" class="form-input" id="update_title" name="title"
@@ -153,21 +170,27 @@
                     <input type="datetime-local" class="form-input" id="update_date" name="date"
                         value="{{ selected_ticket.date.strftime('%Y-%m-%dT%H:%M') }}" required>
                 </div>
+                <!-- Submit button -->
                 <button type="submit" class="button-submit">Update Ticket</button>
+                <!-- Cancel button -->
                 <button type="button" class="button-cancel" onclick="cancelUpdate()">Cancel</button>
             </form>
         </div>
         {% endif %}
     </div>
 
+    <!-- View tickets tab -->
     <div id="view" class="tab">
-        <h2 align="center">Tickets</h2>
+        <h2>Tickets</h2>
+        <!-- Table displaying tickets -->
         <table align="center" style="width:100%">
+            <!-- Table header with sorting functionality -->
             <tr>
                 {% for column in columns %}
                 <th>
                     <div class="sort-header">
                         {{ column }}
+                        <!-- Sorting arrows -->
                         <a href="{{ url_for('main', sort=column, order='asc') }}"
                             class="sort-link {% if sort_by==column and order=='asc' %}active{% endif %}">↑</a>
                         <a href="{{ url_for('main', sort=column, order='desc') }}"
@@ -176,6 +199,7 @@
                 </th>
                 {% endfor %}
             </tr>
+            <!-- Table rows with ticket data -->
             {% for ticket in tickets %}
             <tr>
                 <td>{{ ticket.id }}</td>

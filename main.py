@@ -5,27 +5,31 @@ from auth import login, logout, register
 from models import Tickets, db, User
 from os import path
 
+# Initialise flask app
 app = Flask(__name__)
 app.secret_key = 'your_secret'
 
-# Database configuration
+# SQLite Database configuration
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 
-# Login manager setup
+# Flask-Login configuration
 login_manager = LoginManager()
 login_manager.login_view = 'login_page'
+login_manager.login_message_category = 'failure'
 login_manager.init_app(app)
 
 @login_manager.user_loader
 def load_user(id):
     return User.query.get(int(id))
 
+# Route for homepage
 @app.route('/')
 def home():
     return render_template('home.html')
 
+# Routes for authentication
 @app.route('/login', methods=['GET', 'POST'])
 def login_page():
     return login()
@@ -34,13 +38,19 @@ def login_page():
 def register_page():
     return register()
 
+@app.route('/logout')
+def logout_page():
+    return logout()
+
+# Route for main page
 @app.route('/main')
 @login_required
 def main():
-    # Default sorting
+    # Handles sorting paramters and sets default sorting
     sort_by = request.args.get('sort', 'id')
     order = request.args.get('order', 'asc')
     
+    # Queries tickest based on sorting parameters
     if order == 'asc':
         tickets = Tickets.query.order_by(getattr(Tickets, sort_by).asc()).all()
     else:
@@ -55,31 +65,34 @@ def main():
                            sort_by=sort_by,
                            order=order)
 
-
+# Route for creating new tickets
 @app.route('/create', methods=['POST'])
 @login_required
 def create():
     try:
         if request.method == 'POST':
+            # Get form data from request
             id = request.form.get('id')
             title = request.form.get('title')
             assigned_group = request.form.get('assigned_group')
             status = request.form.get('status')
             severity = request.form.get('severity')
 
-            # Converts the string to datetime object
+            # Converts string to datetime object
             date_str = request.form.get('date')
             try:
                 date = datetime.strptime(date_str, '%Y-%m-%dT%H:%M')
             except:
                 date = datetime.now()  # Defaults to the current time if conversion fails
 
+            # Validate ticket ID and date
             id_exists = Tickets.query.filter_by(id=id).first()
             if id_exists:
                 flash('That ticket ID already exists, try again!', category='failure')
             elif date > datetime.now():
                 flash('Date cannot be in the future, try again!', category='failure')
-            else:    
+            else:  
+                # Create and save new ticket
                 new_ticket = Tickets(
                     id=id,
                     title=title,
@@ -98,6 +111,7 @@ def create():
 
     return redirect(url_for('main', _anchor='view'))
 
+# Route to delete ticket (Admins only)
 @app.route('/delete', methods=['POST'])
 @login_required
 def delete():
@@ -118,6 +132,7 @@ def delete():
             flash('An error occured: ' + str(e), category='failure')
     return redirect(url_for('main', _anchor='view'))
 
+#Route for updating ticket information
 @app.route('/update', methods=['GET', 'POST'])
 @login_required
 def update():
@@ -170,11 +185,9 @@ def update():
                         selected_ticket=selected_ticket,
                         active_tab='view')
 
-@app.route('/logout')
-def logout_page():
-    return logout()
-
+# Database initilisation
 def create_database(app):
+    # Creates database if it does not exist
     if not path.exists('instance/' + 'database.db'):
         with app.app_context():
             db.create_all()
@@ -229,6 +242,7 @@ def create_database(app):
 
             print("Database created!")
 
+# Run the app
 if __name__ == '__main__':
     create_database(app)
     app.run(debug=True)

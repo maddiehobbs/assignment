@@ -1,21 +1,29 @@
+{# Extends the base authentcation template #}
 {% extends "auth/baseauth.html" %}
 
+{# Defines page title #}
 {% block title %}Login{% endblock %}
 
+{# Defines page heading #}
 {% block heading %}Login!{% endblock %}
 
+{# Main content block #}
 {% block content %}
 <form method="POST" class="form">
+    <!-- Username input field -->
     <div class="form-group">
         <label>Username:</label>
         <input type="text" class="form-input" name="username" id="username" placeholder="Enter username..." required>
     </div>
+    <!-- Password input field -->
     <div class="form-group">
         <label>Password:</label>
         <input type="password" class="form-input" name="password" id="password" placeholder="Enter password..."
             required>
     </div>
     <br>
+    <!-- Submit button -->
+
     <button type="submit" class="button">Login</button>
 </form>
 {% endblock %}

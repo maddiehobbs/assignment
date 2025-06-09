@@ -17,16 +17,19 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+  // Sets default tab to view
   const defaultTab = document.querySelector('a[href="#view"]');
   if (defaultTab) {
     setActive(defaultTab);
   }
 
+  // Form for selecting a ticket to update
   const ticketSelectForm = document.getElementById("ticketSelectForm");
   if (ticketSelectForm) {
     ticketSelectForm.addEventListener("submit", handleTicketSelect);
   }
 
+  // Form for updating a ticket information
   const updateForm = document.getElementById("updateForm");
   if (updateForm) {
     updateForm.addEventListener("submit", handleTicketUpdate);
@@ -34,15 +37,20 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function setActive(element) {
+  // Removes active class from all tabs
   document.querySelectorAll(".tab-link").forEach((link) => {
     link.classList.remove("active");
   });
+
+  // Adds active class to selectd tab
   element.classList.add("active");
 
+  // Hides all tab content
   document.querySelectorAll(".tab").forEach((tab) => {
     tab.style.display = "none";
   });
 
+  // Shows active tab content
   const tabId = element.getAttribute("href").substring(1);
   document.getElementById(tabId).style.display = "block";
 }
@@ -64,9 +72,11 @@ function handleTicketSelect(event) {
   })
     .then((response) => response.text())
     .then((html) => {
+      // Replaces current page content
       document.open();
       document.write(html);
       document.close();
+      // Sets update tab to active
       setActive(document.querySelector('a[href="#update"]'));
     })
     .catch((error) => console.error("Error:", error));
@@ -83,9 +93,11 @@ function handleTicketUpdate(event) {
   })
     .then((response) => response.text())
     .then((html) => {
+      // Replaces current page content
       document.open();
       document.write(html);
       document.close();
+      // Swithces to view tab to be active tab
       setTimeout(() => {
         setActive(document.querySelector('a[href="#view"]'));
       }, 100);
@@ -97,9 +109,11 @@ function cancelUpdate() {
   fetch("/update")
     .then((response) => response.text())
     .then((html) => {
+      // Replaces current page content
       document.open();
       document.write(html);
       document.close();
+      // Sets udate tab to active
       setActive(document.querySelector('a[href="#update"]'));
     })
     .catch((error) => console.error("Error:", error));
