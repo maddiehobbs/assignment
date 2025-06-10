@@ -11,7 +11,7 @@
 
 <body>
     <!-- Logout button -->
-    <a href="{{ url_for('logout_page') }}" class="button-back">Logout</a>
+    <a href="{{ url_for('auth.logout') }}" class="button-back">Logout</a>
 
     <!-- Shows flash messages -->
     {% with messages = get_flashed_messages(with_categories=true) %}
@@ -40,7 +40,7 @@
 
         <!-- Form for creating tickets -->
         <div class="form">
-            <form method="POST" action="{{ url_for('create') }}">
+            <form method="POST" action="{{ url_for('tickets.create') }}">
                 <!-- Form fields -->
                 <div class="form-group">
                     <label for="id">Ticket Id:</label>
@@ -93,7 +93,7 @@
         <h2>Delete Ticket</h2>
         <div class="form">
             <!-- Form for deleting tickets with confirmation -->
-            <form method="POST" action="{{ url_for('delete') }}" onsubmit="return confirmDelete()">
+            <form method="POST" action="{{ url_for('tickets.delete') }}" onsubmit="return confirmDelete()">
                 <div class="form-group">
                     <label for="id">Enter the ticket ID you want to delete:</label>
                     <input type="number" class="form-input" id="id" name="id" required>
@@ -110,7 +110,7 @@
         {% if not selected_ticket %}
         <div id="selectTicketFormContainer" class="form">
             <!-- Form to select ticket to update -->
-            <form id="ticketSelectForm" method="POST" action="{{ url_for('update') }}">
+            <form id="ticketSelectForm" method="POST" action="{{ url_for('tickets.update') }}">
                 <div class="form-group">
                     <label for="select_ticket_id">Enter the ticket ID you want to update:</label>
                     <input type="number" class="form-input" id="select_ticket_id" name="id" required>
@@ -122,7 +122,7 @@
         {% else %}
         <div id="updateFormContainer" class="form">
             <!-- Form to update selected ticket -->
-            <form id="updateForm" method="POST" action="{{ url_for('update') }}">
+            <form id="updateForm" method="POST" action="{{ url_for('tickets.update') }}">
                 <input type="hidden" name="update_ticket" value="true">
                 <input type="hidden" name="id" value="{{ selected_ticket.id }}">
                 <!-- Form fields with pre-filled values from current ticket information -->
@@ -191,9 +191,9 @@
                     <div class="sort-header">
                         {{ column }}
                         <!-- Sorting arrows -->
-                        <a href="{{ url_for('main', sort=column, order='asc') }}"
+                        <a href="{{ url_for('tickets.main', sort=column, order='asc') }}"
                             class="sort-link {% if sort_by==column and order=='asc' %}active{% endif %}">↑</a>
-                        <a href="{{ url_for('main', sort=column, order='desc') }}"
+                        <a href="{{ url_for('tickets.main', sort=column, order='desc') }}"
                             class="sort-link {% if sort_by==column and order=='desc' %}active{% endif %}">↓</a>
                     </div>
                 </th>

@@ -1,13 +1,16 @@
-from flask import render_template, request, flash, redirect, url_for
+from flask import render_template, request, flash, redirect, url_for, Blueprint
 from flask_login import login_user, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from models import User, db
 
+auth_blueprint = Blueprint('auth', __name__)
+
 # Handles user login functionality
+@auth_blueprint.route('/login', methods=['GET', 'POST'])
 def login():
     # If user is logged in redirect to main page
     if current_user.is_authenticated:
-        return redirect(url_for('main'))
+        return redirect(url_for('tickets.main'))
     if request.method == 'POST':
         # Gets form data from request
         username = request.form.get('username')
@@ -20,17 +23,18 @@ def login():
         if user and check_password_hash(user.password, password):
             flash("logged in successfully!", category='success')
             login_user(user, remember=True)
-            return redirect(url_for('main'))
+            return redirect(url_for('tickets.main'))
         
         # Error message for invalid credentials
         flash("Invalid username or password, try again!", category='failure')
     return render_template('auth/login.html')
 
 # Handles user registration functionality
+@auth_blueprint.route('/register', methods=['GET', 'POST'])
 def register():
     # If user is logged in redirect to main page
     if current_user.is_authenticated:
-        return redirect(url_for('main'))
+        return redirect(url_for('tickets.main'))
     if request.method == 'POST':
         # Gets form data from request
         username = request.form.get('username')
@@ -60,14 +64,15 @@ def register():
                 db.session.commit()
                 login_user(new_user, remember=True)
                 flash('Account created successfully', category='success')
-                return redirect(url_for('main'))
+                return redirect(url_for('tickets.main'))
             except Exception as e:
                 db.session.rollback()
                 flash('An error occurred.'+ str(e) + 'Please try again.', category='failure')
     return render_template('auth/register.html')
 
 # Handles logout functionality
+@auth_blueprint.route('/logout')
 def logout():
     logout_user()
     flash('Logged out successfully!', category='success')
-    return redirect(url_for('login_page'))
+    return redirect(url_for('auth.login'))

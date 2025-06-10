@@ -66,7 +66,7 @@ function handleTicketSelect(event) {
   const form = event.target;
   const formData = new FormData(form);
 
-  fetch("/update", {
+  fetch("/tickets/update", {
     method: "POST",
     body: formData,
   })
@@ -87,7 +87,7 @@ function handleTicketUpdate(event) {
   const form = event.target;
   const formData = new FormData(form);
 
-  fetch("/update", {
+  fetch("/tickets/update", {
     method: "POST",
     body: formData,
   })
@@ -106,7 +106,7 @@ function handleTicketUpdate(event) {
 }
 
 function cancelUpdate() {
-  fetch("/update")
+  fetch("/tickets/update")
     .then((response) => response.text())
     .then((html) => {
       // Replaces current page content
