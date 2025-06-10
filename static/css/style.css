@@ -142,6 +142,13 @@ h2 {
   box-sizing: border-box;
 }
 
+.form-requirement {
+  color: #dc3545;
+  font-size: 0.8em;
+  margin: 2px 0;
+  font-style: italic;
+}
+
 .container {
   height: 100vh;
   display: flex;

@@ -53,6 +53,7 @@
 
                 <div class="form-group">
                     <label for="severity">Ticket Severity:</label>
+                    <p class="form-requirement">Severity must be a number between 1-5, only using increments of 0.5</p>
                     <input type="number" class="form-input" id="severity" name="severity" min="1" max="5" step="0.5"
                         required>
                 </div>
@@ -80,6 +81,7 @@
 
                 <div class="form-group">
                     <label for="date">Date:</label>
+                    <p class="form-requirement">Date cannot be in the future</p>
                     <input type="datetime-local" class="form-input" id="date" name="date" required>
                 </div>
                 <!-- Submit button -->
@@ -133,6 +135,7 @@
                 </div>
                 <div class="form-group">
                     <label for="update_severity">New Ticket Severity:</label>
+                    <p class="form-requirement">Severity must be a number between 1-5, only using increments of 0.5</p>
                     <input type="number" class="form-input" id="update_severity" name="severity" min="1" max="5"
                         step="0.5" value="{{ selected_ticket.severity }}" required>
                 </div>
@@ -167,6 +170,7 @@
                 </div>
                 <div class="form-group">
                     <label for="update_date">New Date:</label>
+                    <p class="form-requirement">Date cannot be in the future</p>
                     <input type="datetime-local" class="form-input" id="update_date" name="date"
                         value="{{ selected_ticket.date.strftime('%Y-%m-%dT%H:%M') }}" required>
                 </div>
@@ -207,7 +211,7 @@
                 <td>{{ ticket.severity }}</td>
                 <td>{{ ticket.status }}</td>
                 <td>{{ ticket.assigned_group }}</td>
-                <td>{{ ticket.date.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                <td>{{ ticket.date.strftime('%Y-%m-%d %H:%M') }}</td>
             </tr>
             {% endfor %}
         </table>

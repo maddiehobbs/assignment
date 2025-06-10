@@ -27,7 +27,6 @@ def create_app():
     app.register_blueprint(tickets_blueprint, url_prefix='/tickets')
     app.register_blueprint(main_blueprint)
 
-
     @login_manager.user_loader
     def load_user(id):
         return User.query.get(int(id))
