@@ -54,6 +54,8 @@ def register():
             flash('Passwords must be equal, try again!', category='failure')
         elif len(password1) < 8:
             flash('Password must be at least 8 characters long, try again!', category='failure')
+        elif password1.isalpha() == True:
+            flash('Password must contain at least 1 number, try again!', category='failure')
         else:
             # Creates new user with hashed password
             new_user = User(username=username, password=generate_password_hash(password1, method='pbkdf2:sha256'), admin=is_admin)
