@@ -7,10 +7,14 @@ from os import path
 
 login_manager = LoginManager()
 
-def create_app():
+def create_app(test_config=None):
     # Initialise flask app
     app = Flask(__name__)
-    app.config.from_object(Config)
+    
+    if test_config is None:
+        app.config.from_object(Config)
+    else:
+        app.config.update(test_config)
 
     # Flask-Login configuration
     db.init_app(app)
@@ -31,8 +35,12 @@ def create_app():
     def load_user(id):
         return User.query.get(int(id))
     
+    # Create tables for testing
+    if test_config and test_config.get('TESTING'):
+        with app.app_context():
+            db.create_all()
+    
     return app
-
 
 # Database initilisation
 def create_database(app):
