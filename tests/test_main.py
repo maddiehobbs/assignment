@@ -1,5 +1,4 @@
 import os
-import pytest
 from models import Tickets, User, db
 
 def test_home_page(client):
