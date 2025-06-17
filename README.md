@@ -20,10 +20,10 @@ Tickets R Us enables teams to have a central system for tracking support tickets
 ## Getting Started
 
 - Visit [link] to access the application
-- Register a new user or log into an existing account, already created credentials are found in [Existing credentials](#existing-credentials)
+- Register a new user or log into an existing account, already created credentials are found in [Existing Credentials](#existing-credentials)
 - Use the application to manage tickets, including creating, deleting (admin only), and updating records.
 
-## Existing credentials
+## Existing Credentials
 
 **Regular User:**
 
