@@ -20,7 +20,7 @@ Tickets R Us enables teams to have a central system for tracking support tickets
 ## Getting Started
 
 - Visit [link] to access the application
-- Register a new user or log into an existing account, already created credentials are found in [# Existing credentials](#existing-credentials)
+- Register a new user or log into an existing account, already created credentials are found in [Existing credentials](#existing-credentials)
 - Use the application to manage tickets, including creating, deleting (admin only), and updating records.
 
 ## Existing credentials
@@ -33,7 +33,7 @@ Tickets R Us enables teams to have a central system for tracking support tickets
 **Administrator:**
 
 - Username: `adminuser`
-- Password: `adminpassword1?`
+- Password: `adminpassword1`
 
 _Note: Pre-existing usernames cannot be re-registered_
 
@@ -46,6 +46,7 @@ _Note: Pre-existing usernames cannot be re-registered_
 - Update ticket information
 
 **Admin users can:**
+
 All regular user permission, plus:
 
 - Delete any tickets
@@ -68,17 +69,17 @@ All regular user permission, plus:
     - Minimum length of 8 characters
     - Must contain at least 1 numbers
 - Input data is also validated to ensure data integrity.
-  - Input:
+  - Input data:
     - Date cannot be in the future
     - Ticket ID and severity must be numerical
     - Ticket severity must be between 1-5, in increments on 0.5
     - Ticket status and assigned must be one of the pre-defined values
-- Validation error and success messages are implemented to inform the user of their correct or incorrec tinputs
+- Validation error and success messages are implemented to inform the user of their correct or incorrect inputs
 - Confirmation messages are implemented when deleting tickets to ask the user to confirm their actions before the database is updated.
 
 ### Database
 
-- The application uses SQLite, the database schema includes a `tickets` tabl for storing ticket related information and a `users` table for storing user credentials.
+- The application uses SQLite, the database schema includes a `tickets` table for storing ticket related information and a `users` table for storing user credentials.
 - SQLite uses a local file (`database.db`) for data storage.
 
 ## Installation
