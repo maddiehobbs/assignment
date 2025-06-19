@@ -85,6 +85,6 @@ All regular user permission, plus:
 ## Installation
 
 1. Clone this repository to your local machine.
-2. Create and activate a virtual environment or the project
-3. You will need the following dependencies, you can get these through running `pip install -r requirements.txt`
+2. Create and activate a virtual environment or the project (Optional but recommended)
+3. You will need the dependencies found in `requirements.txt`, you can get these through running `pip install -r requirements.txt`
 4. Run the application through running `python main.py` from the root directory.
