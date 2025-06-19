@@ -58,7 +58,7 @@ def add_sample_data():
     ticket_data = [
         {
             'id': 283, 'title': 'Network Outage', 'severity': 1.0,
-            'status': 'Open', 'assigned_group': 'Network Team',
+            'status': 'Open', 'assigned_group': 'IT Support',
             'date': datetime.now()
         },
         {
@@ -68,7 +68,7 @@ def add_sample_data():
         },
         {
             'id': 991, 'title': 'Email System Down', 'severity': 4.0,
-            'status': 'Pending', 'assigned_group': 'System Admin',
+            'status': 'Pending', 'assigned_group': 'Customer Service',
             'date': datetime.now()
         },
         {
@@ -78,27 +78,27 @@ def add_sample_data():
         },
         {
             'id': 112, 'title': 'Customer Unable to Subscribe to Channel', 'severity': 1.0,
-            'status': 'Closed', 'assigned_group': 'Customer Service',
+            'status': 'Closed', 'assigned_group': 'Prime Video',
             'date': datetime.now()
         },
         {
             'id': 2889, 'title': 'Missing Cables', 'severity': 5.0,
-            'status': 'Pending', 'assigned_group': 'Network Team',
+            'status': 'Pending', 'assigned_group': 'IT Support',
             'date': datetime.now()
         },
         {
             'id': 21, 'title': 'Wrong Offer Shown', 'severity': 4.0,
-            'status': 'In Progress', 'assigned_group': 'Customer Service',
+            'status': 'In Progress', 'assigned_group': 'Prime Video',
             'date': datetime.now()
         },
         {
             'id': 37, 'title': 'Web Server is Down', 'severity': 1.0,
-            'status': 'Open', 'assigned_group': 'Network Team',
+            'status': 'Open', 'assigned_group': 'IT Support',
             'date': datetime.now()
         },
         {
             'id': 555, 'title': 'Lost Package', 'severity': 4.5,
-            'status': 'Pending', 'assigned_group': 'Customer Service',
+            'status': 'Pending', 'assigned_group': 'Shopping',
             'date': datetime.now()
         },
         {
