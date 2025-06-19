@@ -15,11 +15,11 @@ A web-based ticket management system for teams to track and manage support ticke
 
 ## Overview
 
-Tickets R Us enables teams to have a central system for tracking support tickets. Users can create, view, and update tickets, while adminsitrators have an additional action of being able to delete tickets.
+Tickets R Us enables teams to have a central system for tracking support tickets. Users can create, view, and update tickets, while adminstrators have an additional action of being able to delete tickets.
 
 ## Getting Started
 
-- Visit [link] to access the application
+- Visit https://maddiehobbs.eu.pythonanywhere.com/ to access the application
 - Register a new user or log into an existing account, already created credentials are found in [Existing Credentials](#existing-credentials)
 - Use the application to manage tickets, including creating, deleting (admin only), and updating records.
 
